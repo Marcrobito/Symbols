@@ -1,15 +1,14 @@
 package dev.eighteentech.test.ui
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.eighteentech.test.model.Response
 import dev.eighteentech.test.model.State
-import dev.eighteentech.test.model.State.MainScreenState
 import dev.eighteentech.test.model.State.ConverterState
+import dev.eighteentech.test.model.State.MainScreenState
 import dev.eighteentech.test.model.UserIntent
-import dev.eighteentech.test.model.UserIntent.LoadMainScreen
 import dev.eighteentech.test.model.UserIntent.GetCurrencyRates
+import dev.eighteentech.test.model.UserIntent.LoadMainScreen
 import dev.eighteentech.test.repository.Repository
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
@@ -18,7 +17,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.consumeAsFlow
 import kotlinx.coroutines.launch
-import java.util.*
 
 private const val TAG = "MainViewModel"
 
@@ -39,7 +37,6 @@ class MainViewModel(private val repository: Repository) : ViewModel() {
         viewModelScope.launch {
             userIntent.consumeAsFlow().collect(object : FlowCollector<UserIntent> {
                 override suspend fun emit(intent: UserIntent) {
-                    Log.d("REM2", intent.toString())
                     when(intent){
                         is LoadMainScreen -> loadMainScreen()
                         is GetCurrencyRates -> getCurrencyRates(intent.currency)
